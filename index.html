@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EPIS - Empty State Selection v0.4.1</title>
+    <title>EPIS - Empty State Selection v0.4.5</title>
     <style>
         :root {
             --bg-main: #101114;
@@ -783,16 +783,35 @@
         }
 
         footer {
-            height: 28px;
+            min-height: 46px;
             flex-shrink: 0;
             display: flex;
             align-items: center;
-            padding: 0 20px;
+            padding: 8px 20px;
             background: var(--bg-sidebar);
             border-top: 1px solid var(--border);
             color: var(--text-muted);
             font-family: var(--font-mono);
             font-size: 9.5px;
+            line-height: 1.45;
+        }
+
+        .footer-inner {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .footer-boundary {
+            max-width: 720px;
+            text-align: right;
+        }
+
+        .footer-boundary strong {
+            color: var(--text-secondary);
+            font-weight: 650;
         }
 
         @media (max-width: 1060px) {
@@ -817,12 +836,21 @@
             .review-drawer {
                 width: min(100vw, 500px);
             }
+            .footer-inner {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+            .footer-boundary {
+                max-width: none;
+                text-align: left;
+            }
         }
     </style>
 </head>
 <body>
 <header>
-    <div class="logo">EPIS <span class="version">v0.4.1 Empty State Selection</span></div>
+    <div class="logo">EPIS <span class="version">v0.4.5 Empty State Selection</span></div>
     <div class="header-status">SYNTHETIC CORPUS CONCEPT DEMO - NOT REAL-WORLD VALIDATION</div>
 </header>
 
@@ -855,7 +883,7 @@
 
         <section class="comparison">
             <div class="compare-box">
-                <div class="compare-title" id="elevation-title">Elevated because all three tests are present</div>
+                <div class="compare-title" id="elevation-title">Elevated because all three structural gates are met</div>
                 <div class="compare-list" id="elevated-list"></div>
             </div>
             <div class="compare-box">
@@ -867,8 +895,8 @@
         <div>
             <div class="nav-tabs">
                 <button class="tab active" data-tab="cause" onclick="switchTab('cause')">CAUSE</button>
-                <button class="tab" data-tab="consequence" onclick="switchTab('consequence')">CONSEQUENCE OF INACTION</button>
-                <button class="tab" data-tab="change" onclick="switchTab('change')">WHAT WOULD CHANGE THIS</button>
+                <button class="tab" data-tab="consequence" onclick="switchTab('consequence')">OPEN PRESSURE</button>
+                <button class="tab" data-tab="change" onclick="switchTab('change')">POTENTIAL STATE SHIFTS</button>
             </div>
             <div style="margin-top:20px;">
                 <div class="tab-view active" id="view-cause">
@@ -887,7 +915,7 @@
     <aside class="right-panel">
         <div class="right-scroll">
             <div>
-                <div class="section-label" style="padding:0 0 8px;">Evidence Proves Selection</div>
+                <div class="section-label" style="padding:0 0 8px;">Evidence Supports Selection</div>
                 <div class="evidence-groups" id="evidence-groups"></div>
             </div>
 
@@ -927,7 +955,10 @@
 </div>
 
 <footer>
-    Demo artifact based on synthetic EPIS corpus concepts and current single-model benchmark work.
+    <div class="footer-inner">
+        <div>Demo artifact based on synthetic EPIS corpus concepts and current single-model benchmark work.</div>
+        <div class="footer-boundary"><strong>Data Boundary:</strong> This demo uses a static synthetic corpus. EPIS is intended to evaluate bounded organizational signals and evidence references, not expose raw private message bodies. Production ingestion, retention, and identity-handling rules would require explicit deployment policy and human approval.</div>
+    </div>
 </footer>
 
 <script>
@@ -936,67 +967,67 @@ const ITEMS = {
         id: "EPIS-001",
         status: "REQUIRES ATTENTION NOW",
         elevated: true,
-        headline: "Returnless refund policy exception is blocking consistent support execution",
-        title: "Returnless refund policy exception requires an owner decision before support can act consistently.",
-        summary: "EPIS elevated this item because the pressure is current, the consequence of inaction is visible, and there is a reachable decision target. The product moment is not that tension exists. It is that this tension controls what needs to happen next.",
-        selectionSubtitle: "This item passed all three controlling-pressure tests. Background items are still tracked, but each is missing at least one test.",
+        headline: "Conflicting support guidelines are stalling customer approvals.",
+        title: "Frontline teams face conflicting guidelines and await an owner decision.",
+        summary: "This item exhibits an active process breakdown with an immediate downstream bottleneck and an identifiable owner. It moves to the queue because the current friction directly stalls immediate next steps.",
+        selectionSubtitle: "This item exhibits an active breakdown with an immediate downstream bottleneck and an identifiable owner. Other tracked issues remain backgrounded because their impact windows are still buffered.",
         tests: [
             {
-                name: "Reachable intervention target",
+                name: "Identifiable decision boundary",
                 present: true,
-                detail: "VP Support and Director Risk Management are the named decision boundary."
+                detail: "Current evidence points to VP Support and Director of Risk Management as the operational threshold."
             },
             {
-                name: "Active/current evidence",
+                name: "Active evidence signals",
                 present: true,
-                detail: "Fresh support-volume signal and open incident show the pressure is live."
+                detail: "Recent support chatter and an unresolved routing ticket indicate the breakdown is ongoing."
             },
             {
-                name: "Visible consequence of inaction",
+                name: "Near-term operational bottleneck",
                 present: true,
-                detail: "Without an owner decision, inconsistent customer-facing approvals continue."
+                detail: "Frontline teams appear to lack a unified approval path, creating visible customer-resolution friction."
             }
         ],
         cause: [
-            { label: "Conflicting policy signals", text: "Risk parameters and customer-support exception practices now imply different approval rules.", primary: true },
+            { label: "Conflicting process signals", text: "Risk parameters and customer-support exception practices now imply different approval rules.", primary: true },
             { label: "Ownership boundary unresolved", text: "Support and Risk each identify the other team as owner for exception decisions." },
-            { label: "Operational pressure is active", text: "Frontline teams report dozens of blocked exception approvals in one morning." },
-            { label: "Decision is reachable", text: "The required intervention is specific: name the owner and approve the exception path." }
+            { label: "Operational friction is active", text: "Frontline teams report a severe backlog of blocked exception approvals this morning." },
+            { label: "Decision target is clear", text: "The required intervention is specific: name the final owner and establish the exception path." }
         ],
         consequence: [
-            { label: "Current", text: "Support teams improvise responses, creating inconsistent customer outcomes.", primary: true },
-            { label: "Next", text: "Escalation volume rises because agents have no decision path." },
-            { label: "If unresolved", text: "The policy ambiguity becomes the operating default and repeats in future exception disputes." }
+            { label: "Observed Friction", text: "Current signals indicate frontline teams are improvising around conflicting support and risk guidance.", primary: true },
+            { label: "Projected Velocity", text: "Signal patterns indicate escalation volumes could rise as agents lack a standardized decision path." },
+            { label: "Structural Friction", text: "Unchecked policy ambiguity carries the risk of becoming the default operating pattern for future exception disputes." }
         ],
         change: [
-            { label: "Would demote", text: "A named owner accepts decision rights and publishes temporary exception criteria.", primary: true },
-            { label: "Would increase urgency", text: "Executive escalation appears, customer-impact volume expands, or the deferred alignment meeting slips again." },
-            { label: "Would require more evidence", text: "A later authoritative policy record contradicts the incident and support signals." }
+            { label: "Monitoring Gate", text: "If a named owner accepts explicit decision rights and publishes temporary exception criteria.", primary: true },
+            { label: "Escalation Path", text: "If executive customer escalations occur, customer-impact volume expands, or the deferred alignment meeting slips again." },
+            { label: "Evidence Threshold", text: "If a later authoritative policy record contradicts the active incident and support signals." }
         ],
         evidenceGroups: [
             {
                 title: "Why this surfaced",
                 items: [
                     {
-                        source: "INCIDENT",
+                        source: "DRAFT TICKET",
                         time: "2025-05-21",
                         tag: "CURRENT",
                         excerpt: "Policy mismatch flagged between baseline exception rules and customer-facing support tier parameters. Cross-functional ownership unresolved.",
-                        note: "Shows the dispute is active, formalized, and unresolved."
+                        note: "Confirms that the process dispute is active, formalized, and unresolved."
                     },
                     {
                         source: "SLACK",
                         time: "2025-05-20",
                         tag: "PRESSURE",
-                        excerpt: "42 exception rejections this morning on returnless tracks. Customers have no alternative path.",
-                        note: "Converts policy ambiguity into current operational pressure."
+                        excerpt: "42 exception rejections this morning on support tracks. Customers have no alternative path.",
+                        note: "Shows visible backlog pressure tied to the unresolved policy path."
                     },
                     {
                         source: "EMAIL",
                         time: "2025-05-18",
                         tag: "TARGET",
                         excerpt: "VP Support says Risk owns it. Director Risk Management says Support owns customer-facing exceptions.",
-                        note: "Names the reachable intervention boundary."
+                        note: "Identifies the two executives who appear to hold the authority boundary for this decision."
                     }
                 ]
             },
@@ -1027,21 +1058,21 @@ const ITEMS = {
                 ]
             },
             {
-                title: "What would change the decision",
+                title: "Potential state shifts",
                 items: [
                     {
                         source: "OWNER RECORD",
                         time: "Needed",
                         tag: "DEMOTE",
                         excerpt: "Temporary owner and exception criteria published to support leads.",
-                        note: "Would convert controlling pressure into monitored execution."
+                        note: "If accepted, this opens the monitoring path."
                     },
                     {
                         source: "CUSTOMER IMPACT",
                         time: "Watch",
                         tag: "ESCALATE",
                         excerpt: "Exception volume expands or executive customer channel receives direct complaints.",
-                        note: "Would strengthen the consequence chain and raise review priority."
+                        note: "If observed, this opens the escalation path."
                     }
                 ]
             }
@@ -1076,9 +1107,9 @@ const ITEMS = {
         summary: "The item contains real pressure, but it does not currently control the next action. The responsible office is aware, and the board timeline still has recovery space.",
         selectionSubtitle: "This item is not ignored. It is tracked until the consequence chain becomes immediate or the responsible owner misses the follow-up trigger.",
         tests: [
-            { name: "Reachable intervention target", present: true, detail: "CFO EA and board deck coordinator are known." },
-            { name: "Active/current evidence", present: true, detail: "The overdue ticket and follow-up note are current." },
-            { name: "Visible consequence of inaction", present: false, detail: "Board meeting timing still leaves recovery buffer." }
+            { name: "Identifiable decision boundary", present: true, detail: "CFO EA and board deck coordinator are known." },
+            { name: "Active evidence signals", present: true, detail: "The overdue ticket and follow-up note are current." },
+            { name: "Near-term operational bottleneck", present: false, detail: "Board meeting timing still leaves recovery buffer." }
         ],
         cause: [
             { label: "Dependency delay", text: "Legal review is overdue and has not produced comments.", primary: true },
@@ -1088,11 +1119,11 @@ const ITEMS = {
         consequence: [
             { label: "Current", text: "Preparation continues with a known late dependency.", primary: true },
             { label: "If delay extends", text: "At a longer overdue window, the CFO office may need to reassign or escalate." },
-            { label: "If unresolved", text: "The deck could ship without Legal sign-off on financial summary language." }
+            { label: "Structural Friction", text: "The deck carries review ambiguity if Legal sign-off remains missing near the preparation deadline." }
         ],
         change: [
-            { label: "Would elevate", text: "The follow-up trigger passes without response or the board-prep buffer compresses.", primary: true },
-            { label: "Would close", text: "Legal review is completed or an alternate reviewer accepts ownership." }
+            { label: "Escalation Path", text: "If the internal follow-up window passes without an owner response or the board-prep schedule buffer compresses.", primary: true },
+            { label: "Resolution Gate", text: "If Legal review is officially logged as completed or an alternate reviewer accepts ownership." }
         ],
         evidenceGroups: [
             {
@@ -1120,9 +1151,9 @@ const ITEMS = {
         summary: "The pattern may matter later, but no active dependency is blocked and no owner decision is currently required.",
         selectionSubtitle: "The signal is real, but EPIS does not elevate it until a concrete intervention target or blocked dependency appears.",
         tests: [
-            { name: "Reachable intervention target", present: false, detail: "No blocked project or owner decision is attached." },
-            { name: "Active/current evidence", present: true, detail: "Calendar and channel activity show current decline." },
-            { name: "Visible consequence of inaction", present: false, detail: "No project outcome is currently tied to the drift." }
+            { name: "Identifiable decision boundary", present: false, detail: "No blocked project or owner decision is attached." },
+            { name: "Active evidence signals", present: true, detail: "Calendar and channel activity show current decline." },
+            { name: "Near-term operational bottleneck", present: false, detail: "No project outcome is currently tied to the drift." }
         ],
         cause: [
             { label: "Attendance pattern", text: "Three consecutive weeks of lower attendance from regular participants.", primary: true },
@@ -1135,8 +1166,8 @@ const ITEMS = {
             { label: "If dependency appears", text: "A cross-functional decision could arrive without an active coordination mechanism." }
         ],
         change: [
-            { label: "Would elevate", text: "A project dependency becomes blocked or the meeting owner requests intervention.", primary: true },
-            { label: "Would close", text: "Attendance recovers or the meeting is formally replaced with another coordination path." }
+            { label: "Escalation Path", text: "If an active cross-functional project dependency becomes blocked or the meeting owner explicitly requests intervention.", primary: true },
+            { label: "Resolution Gate", text: "If team attendance recovers or the format is formally replaced with an alternate coordination path." }
         ],
         evidenceGroups: [
             {
@@ -1162,11 +1193,11 @@ const ITEMS = {
         headline: "Vendor onboarding delay has stale evidence and no new escalation signal",
         title: "Vendor onboarding delay is tracked, but stale evidence prevents elevation.",
         summary: "The delay may still be real, but EPIS should not elevate stale tension without fresh evidence or a live consequence chain.",
-        selectionSubtitle: "This item lacks current evidence. A fresh blocker, owner update, or customer-impact signal would change the selection.",
+        selectionSubtitle: "This item lacks current evidence. A fresh blocker, owner update, or customer-impact signal could alter the selection.",
         tests: [
-            { name: "Reachable intervention target", present: true, detail: "Procurement and vendor owner are known." },
-            { name: "Active/current evidence", present: false, detail: "Most recent vendor update is 11 days old." },
-            { name: "Visible consequence of inaction", present: true, detail: "Delayed onboarding could slip downstream launch readiness." }
+            { name: "Identifiable decision boundary", present: true, detail: "Procurement and vendor owner are known." },
+            { name: "Active evidence signals", present: false, detail: "Most recent vendor update is 11 days old." },
+            { name: "Near-term operational bottleneck", present: true, detail: "Delayed onboarding could affect downstream launch readiness." }
         ],
         cause: [
             { label: "Stale delay signal", text: "The last vendor update indicated onboarding slippage, but no current signal confirms it remains unresolved.", primary: true },
@@ -1179,8 +1210,8 @@ const ITEMS = {
             { label: "If no signal appears", text: "The item remains background until evidence refreshes or closes." }
         ],
         change: [
-            { label: "Would elevate", text: "Fresh vendor status confirms the blocker remains active and launch readiness is affected.", primary: true },
-            { label: "Would close", text: "Vendor confirms onboarding completed or dependency is no longer launch-critical." }
+            { label: "Escalation Path", text: "If fresh vendor status evidence confirms the blocker remains unresolved and launch readiness dates are affected.", primary: true },
+            { label: "Resolution Gate", text: "If the procurement owner confirms onboarding is finalized or the dependency is no longer launch-critical." }
         ],
         evidenceGroups: [
             {
@@ -1202,61 +1233,61 @@ const ITEMS = {
 
 const EMPTY_STATE = {
     status: "NO CONTROLLING PRESSURE DETECTED",
-    title: "No item currently passes all three controlling-pressure tests.",
-    summary: "EPIS completed the current scan. Background pressure remains under observation, but no tracked item currently combines a reachable intervention target, active/current evidence, and a visible consequence of inaction.",
-    selectionSubtitle: "The criteria below are being monitored. They are not failures in the empty state; they are the tests an item must satisfy before it earns attention.",
+    title: "No item currently passes the elevation filter.",
+    summary: "Current scan executed. No active item crossed the attention threshold. Background pressure remains visible, but no single issue currently shows the combined evidence needed for elevation.",
+    selectionSubtitle: "The cards below describe the elevation filter applied during this scan. Background items remain un-elevated unless incoming evidence satisfies all three structural gates together.",
     tests: [
         {
-            name: "Reachable intervention target",
+            name: "Identifiable decision boundary",
             present: null,
-            detail: "A responsible actor can influence the outcome."
+            detail: "A responsible actor appears able to influence the outcome."
         },
         {
-            name: "Active/current evidence",
+            name: "Active evidence signals",
             present: null,
-            detail: "The signal is recent enough to describe current pressure."
+            detail: "The signal is recent enough to indicate current pressure."
         },
         {
-            name: "Visible consequence of inaction",
+            name: "Near-term operational bottleneck",
             present: null,
-            detail: "The likely cost of doing nothing is concrete enough to inspect."
+            detail: "The open pressure appears tied to near-term operational friction."
         }
     ],
     cause: [
-        { label: "Scan result", text: "No tracked pressure currently satisfies all three elevation criteria.", primary: true },
+        { label: "Scan result", text: "No tracked pressure currently passes the full elevation filter.", primary: true },
         { label: "Background remains visible", text: "EPIS keeps non-elevated pressure in view instead of treating silence as absence." },
-        { label: "Selection can change", text: "A fresh signal, reachable owner, or clearer consequence can promote an item on a later scan." }
+        { label: "Selection can change", text: "A fresh signal, reachable owner, or clearer consequence can open an escalation path on a later scan." }
     ],
     consequence: [
-        { label: "Current", text: "No human attention package is being prepared from this scan.", primary: true },
+        { label: "Observed State", text: "No human attention package is being prepared from this scan.", primary: true },
         { label: "Monitored", text: "Background items remain tracked with the specific criterion each item currently lacks." },
-        { label: "If conditions change", text: "An item can move into attention when it passes all three controlling-pressure tests." }
+        { label: "Open Pressure", text: "A tracked item can move into attention if new evidence satisfies all three structural gates." }
     ],
     change: [
-        { label: "Would elevate", text: "Any tracked item gains the missing criterion that prevents elevation.", primary: true },
-        { label: "Would close", text: "A tracked item receives resolution evidence or loses operational relevance." }
+        { label: "Escalation Path", text: "If any tracked background item gains its missing operational criterion and passes the elevation threshold.", primary: true },
+        { label: "Resolution Gate", text: "If a tracked background item receives closure evidence or is no longer operationally relevant." }
     ],
     evidenceGroups: [
         {
             title: "Why nothing surfaced",
             items: [
-                { source: "SELECTION", time: "Current scan", tag: "NO PASS", excerpt: "No item currently combines reachable target, current evidence, and visible consequence.", note: "This is a verified non-elevation, not a claim that nothing is happening." },
+                { source: "SELECTION", time: "Current scan", tag: "NO PASS", excerpt: "No item currently combines an identifiable decision boundary, active evidence signals, and a near-term operational bottleneck.", note: "This is a verified non-elevation, not a claim that nothing is happening." },
                 { source: "QUEUE", time: "Current scan", tag: "TRACKED", excerpt: "All background pressure remains visible with the criterion each item lacks.", note: "Silence means no item crossed the attention line, not that the system stopped observing." }
             ]
         },
         {
             title: "Tracked background pressure",
             items: [
-                { source: "EPIS-002", time: "Current scan", tag: "BUFFER", excerpt: "Board deck Legal review is overdue but still has schedule buffer.", note: "Missing visible immediate consequence." },
-                { source: "EPIS-003", time: "Current scan", tag: "NO TARGET", excerpt: "Engineering/Product meeting attendance has declined for three weeks.", note: "Missing reachable intervention target tied to current action." },
-                { source: "EPIS-004", time: "Current scan", tag: "STALE", excerpt: "Vendor onboarding delay has stale evidence and no new escalation signal.", note: "Missing active/current evidence." }
+                { source: "EPIS-002", time: "Current scan", tag: "BUFFER", excerpt: "Board deck Legal review is overdue but still has schedule buffer.", note: "Missing near-term operational bottleneck." },
+                { source: "EPIS-003", time: "Current scan", tag: "NO BOUNDARY", excerpt: "Engineering/Product meeting attendance has declined for three weeks.", note: "Missing identifiable decision boundary tied to current action." },
+                { source: "EPIS-004", time: "Current scan", tag: "STALE", excerpt: "Vendor onboarding delay has stale evidence and no new escalation signal.", note: "Missing active evidence signals." }
             ]
         },
         {
-            title: "What would change the decision",
+            title: "Potential state shifts",
             items: [
-                { source: "FRESH SIGNAL", time: "Watch", tag: "PROMOTE", excerpt: "A background item gains its missing criterion.", note: "The next scan would re-evaluate elevation." },
-                { source: "RESOLUTION", time: "Watch", tag: "CLOSE", excerpt: "A background item receives closure evidence.", note: "The item would leave the tracked pressure set." }
+                { source: "FRESH SIGNAL", time: "Watch", tag: "PROMOTE", excerpt: "A background item gains its missing criterion.", note: "If observed, the next scan can re-evaluate elevation." },
+                { source: "RESOLUTION", time: "Watch", tag: "CLOSE", excerpt: "A background item receives closure evidence.", note: "If accepted, the item can leave the tracked pressure set." }
             ]
         }
     ],
@@ -1351,17 +1382,17 @@ function renderItem(item) {
     const elevatedItems = currentMode === "empty" ? [] : Object.values(ITEMS).filter(i => i.elevated);
     const backgroundItems = Object.values(ITEMS).filter(i => currentMode === "empty" || !i.elevated);
     document.getElementById("elevation-title").textContent = currentMode === "empty"
-        ? "Elevation criteria"
-        : "Elevated because all three tests are present";
+        ? "Elevation filter"
+        : "Elevated because all three structural gates are met";
 
     document.getElementById("elevated-list").innerHTML = elevatedItems.length ? elevatedItems.map(i => `
         <div class="compare-item">
             <div class="compare-name">${i.headline}</div>
-            <div class="compare-reason">All tests present: reachable target, current evidence, visible consequence.</div>
+            <div class="compare-reason">All structural gates present: identifiable decision boundary, active evidence signals, near-term operational bottleneck.</div>
         </div>
     `).join("") : `
         <div class="criteria-card">
-            <div class="criteria-title">No item passed all three tests</div>
+            <div class="criteria-title">No item passed the elevation filter</div>
             <div class="criteria-copy">The current scan did not produce an attention package. This is a quiet system state, not an alignment claim.</div>
         </div>
     `;
