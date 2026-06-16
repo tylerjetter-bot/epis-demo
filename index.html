@@ -896,7 +896,7 @@
             <div class="nav-tabs">
                 <button class="tab active" data-tab="cause" onclick="switchTab('cause')">CAUSE</button>
                 <button class="tab" data-tab="consequence" onclick="switchTab('consequence')">OPEN PRESSURE</button>
-                <button class="tab" data-tab="change" onclick="switchTab('change')">POTENTIAL STATE SHIFTS</button>
+                <button class="tab" data-tab="change" onclick="switchTab('change')">DECISION GATES</button>
             </div>
             <div style="margin-top:20px;">
                 <div class="tab-view active" id="view-cause">
@@ -975,7 +975,7 @@ const ITEMS = {
             {
                 name: "Identifiable decision boundary",
                 present: true,
-                detail: "Current evidence points to VP Support and Director of Risk Management as the operational threshold."
+                detail: "Current evidence points to a Support/Risk ownership boundary that needs clarification."
             },
             {
                 name: "Active evidence signals",
@@ -989,10 +989,10 @@ const ITEMS = {
             }
         ],
         cause: [
-            { label: "Conflicting process signals", text: "Risk parameters and customer-support exception practices now imply different approval rules.", primary: true },
-            { label: "Ownership boundary unresolved", text: "Support and Risk each identify the other team as owner for exception decisions." },
-            { label: "Operational friction is active", text: "Frontline teams report a severe backlog of blocked exception approvals this morning." },
-            { label: "Decision target is clear", text: "The required intervention is specific: name the final owner and establish the exception path." }
+            { label: "Conflicting process signals", text: "Current records suggest support and risk guidance are pulling frontline approvals in different directions.", primary: true },
+            { label: "Ownership clarity needed", text: "Current records suggest Support and Risk ownership still needs clarification." },
+            { label: "Operational friction is active", text: "Frontline teams report a backlog of blocked approvals." },
+            { label: "Decision point", text: "Ownership clarity is the next decision point." }
         ],
         consequence: [
             { label: "Observed Friction", text: "Current signals indicate frontline teams are improvising around conflicting support and risk guidance.", primary: true },
@@ -1000,9 +1000,9 @@ const ITEMS = {
             { label: "Structural Friction", text: "Unchecked policy ambiguity carries the risk of becoming the default operating pattern for future exception disputes." }
         ],
         change: [
-            { label: "Monitoring Gate", text: "If a named owner accepts explicit decision rights and publishes temporary exception criteria.", primary: true },
-            { label: "Escalation Path", text: "If executive customer escalations occur, customer-impact volume expands, or the deferred alignment meeting slips again." },
-            { label: "Evidence Threshold", text: "If a later authoritative policy record contradicts the active incident and support signals." }
+            { label: "Monitoring", text: "If ownership is clarified and temporary approval criteria are set.", primary: true },
+            { label: "Escalation", text: "If customer escalations appear, approval volume expands, or the deferred alignment meeting slips again." },
+            { label: "Evidence", text: "If a later authoritative policy record contradicts the active incident and support signals." }
         ],
         evidenceGroups: [
             {
@@ -1019,15 +1019,15 @@ const ITEMS = {
                         source: "SLACK",
                         time: "2025-05-20",
                         tag: "PRESSURE",
-                        excerpt: "42 exception rejections this morning on support tracks. Customers have no alternative path.",
+                        excerpt: "42 exception rejections on support tasks. Customers have no alternative path.",
                         note: "Shows visible backlog pressure tied to the unresolved policy path."
                     },
                     {
                         source: "EMAIL",
                         time: "2025-05-18",
                         tag: "TARGET",
-                        excerpt: "VP Support says Risk owns it. Director Risk Management says Support owns customer-facing exceptions.",
-                        note: "Identifies the two executives who appear to hold the authority boundary for this decision."
+                        excerpt: "Support/Risk ownership for customer-facing exceptions remains unclear.",
+                        note: "Shows the ownership boundary is unresolved between Support and Risk."
                     }
                 ]
             },
@@ -1052,7 +1052,7 @@ const ITEMS = {
                         source: "VENDOR",
                         time: "2026-06-04",
                         tag: "STALE",
-                        excerpt: "Vendor onboarding delay has no update in 11 days and no current escalation signal.",
+                        excerpt: "Vendor onboarding status is 11 days stale; launch exposure remains unconfirmed.",
                         note: "Evidence is not current enough to elevate without a fresh signal."
                     }
                 ]
@@ -1071,7 +1071,7 @@ const ITEMS = {
                         source: "CUSTOMER IMPACT",
                         time: "Watch",
                         tag: "ESCALATE",
-                        excerpt: "Exception volume expands or executive customer channel receives direct complaints.",
+                        excerpt: "Approval volume expands or executive customer channels receive direct complaints.",
                         note: "If observed, this opens the escalation path."
                     }
                 ]
@@ -1122,8 +1122,8 @@ const ITEMS = {
             { label: "Structural Friction", text: "The deck carries review ambiguity if Legal sign-off remains missing near the preparation deadline." }
         ],
         change: [
-            { label: "Escalation Path", text: "If the internal follow-up window passes without an owner response or the board-prep schedule buffer compresses.", primary: true },
-            { label: "Resolution Gate", text: "If Legal review is officially logged as completed or an alternate reviewer accepts ownership." }
+            { label: "Escalation", text: "If the internal follow-up window passes without an owner response or the board-prep schedule buffer compresses.", primary: true },
+            { label: "Resolution", text: "If Legal review is officially logged as completed or an alternate reviewer accepts ownership." }
         ],
         evidenceGroups: [
             {
@@ -1146,8 +1146,8 @@ const ITEMS = {
         status: "TRACKED, NOT ELEVATED",
         elevated: false,
         missing: "Missing reachable intervention target",
-        headline: "Engineering/Product meeting attendance declined for three weeks",
-        title: "Engineering/Product attendance drift is tracked as an early signal, not a current intervention item.",
+        headline: "Product-engineering sync attendance has fallen for three weeks.",
+        title: "Product-engineering participation is declining, but no active workstream is blocked.",
         summary: "The pattern may matter later, but no active dependency is blocked and no owner decision is currently required.",
         selectionSubtitle: "The signal is real, but EPIS does not elevate it until a concrete intervention target or blocked dependency appears.",
         tests: [
@@ -1166,8 +1166,8 @@ const ITEMS = {
             { label: "If dependency appears", text: "A cross-functional decision could arrive without an active coordination mechanism." }
         ],
         change: [
-            { label: "Escalation Path", text: "If an active cross-functional project dependency becomes blocked or the meeting owner explicitly requests intervention.", primary: true },
-            { label: "Resolution Gate", text: "If team attendance recovers or the format is formally replaced with an alternate coordination path." }
+            { label: "Escalation", text: "If an active cross-functional project dependency becomes blocked or the meeting owner explicitly requests intervention.", primary: true },
+            { label: "Resolution", text: "If team attendance recovers or the format is formally replaced with an alternate coordination path." }
         ],
         evidenceGroups: [
             {
@@ -1190,8 +1190,8 @@ const ITEMS = {
         status: "TRACKED, NOT ELEVATED",
         elevated: false,
         missing: "Evidence not current",
-        headline: "Vendor onboarding delay has stale evidence and no new escalation signal",
-        title: "Vendor onboarding delay is tracked, but stale evidence prevents elevation.",
+        headline: "Vendor onboarding status is stale; launch exposure remains unconfirmed.",
+        title: "Vendor onboarding remains unresolved, but current evidence is too stale to elevate.",
         summary: "The delay may still be real, but EPIS should not elevate stale tension without fresh evidence or a live consequence chain.",
         selectionSubtitle: "This item lacks current evidence. A fresh blocker, owner update, or customer-impact signal could alter the selection.",
         tests: [
@@ -1202,7 +1202,7 @@ const ITEMS = {
         cause: [
             { label: "Stale delay signal", text: "The last vendor update indicated onboarding slippage, but no current signal confirms it remains unresolved.", primary: true },
             { label: "Known owner", text: "The procurement owner is identifiable, but has not been asked for a fresh status." },
-            { label: "Consequence possible", text: "Launch readiness could slip if the delay persists." }
+            { label: "Launch exposure unconfirmed", text: "Launch readiness exposure depends on a current vendor status check." }
         ],
         consequence: [
             { label: "Current", text: "Potential delay exists, but the current state is under-evidenced.", primary: true },
@@ -1210,15 +1210,15 @@ const ITEMS = {
             { label: "If no signal appears", text: "The item remains background until evidence refreshes or closes." }
         ],
         change: [
-            { label: "Escalation Path", text: "If fresh vendor status evidence confirms the blocker remains unresolved and launch readiness dates are affected.", primary: true },
-            { label: "Resolution Gate", text: "If the procurement owner confirms onboarding is finalized or the dependency is no longer launch-critical." }
+            { label: "Escalation", text: "If fresh vendor status evidence confirms the blocker remains unresolved and launch readiness dates are affected.", primary: true },
+            { label: "Resolution", text: "If the procurement owner confirms onboarding is finalized or the dependency is no longer launch-critical." }
         ],
         evidenceGroups: [
             {
                 title: "Why this stayed background",
                 items: [
-                    { source: "VENDOR EMAIL", time: "2026-06-04", tag: "STALE", excerpt: "Onboarding dependencies may slip pending final security review.", note: "The signal is old enough that it should be refreshed before elevation." },
-                    { source: "PROCUREMENT", time: "Needed", tag: "REFRESH", excerpt: "Current status request not yet sent.", note: "The next action is evidence refresh, not executive attention." }
+                    { source: "VENDOR EMAIL", time: "2026-06-04", tag: "STALE", excerpt: "Final security review remains the last known blocker.", note: "The signal is old enough that it should be refreshed before elevation." },
+                    { source: "PROCUREMENT", time: "Pending", tag: "REFRESH", excerpt: "Procurement owner status check pending.", note: "Status check required for elevation." }
                 ]
             }
         ],
@@ -1264,8 +1264,8 @@ const EMPTY_STATE = {
         { label: "Open Pressure", text: "A tracked item can move into attention if new evidence satisfies all three structural gates." }
     ],
     change: [
-        { label: "Escalation Path", text: "If any tracked background item gains its missing operational criterion and passes the elevation threshold.", primary: true },
-        { label: "Resolution Gate", text: "If a tracked background item receives closure evidence or is no longer operationally relevant." }
+        { label: "Escalation", text: "If any tracked background item gains its missing operational criterion and passes the elevation threshold.", primary: true },
+        { label: "Resolution", text: "If a tracked background item receives closure evidence or is no longer operationally relevant." }
     ],
     evidenceGroups: [
         {
@@ -1279,8 +1279,8 @@ const EMPTY_STATE = {
             title: "Tracked background pressure",
             items: [
                 { source: "EPIS-002", time: "Current scan", tag: "BUFFER", excerpt: "Board deck Legal review is overdue but still has schedule buffer.", note: "Missing near-term operational bottleneck." },
-                { source: "EPIS-003", time: "Current scan", tag: "NO BOUNDARY", excerpt: "Engineering/Product meeting attendance has declined for three weeks.", note: "Missing identifiable decision boundary tied to current action." },
-                { source: "EPIS-004", time: "Current scan", tag: "STALE", excerpt: "Vendor onboarding delay has stale evidence and no new escalation signal.", note: "Missing active evidence signals." }
+                { source: "EPIS-003", time: "Current scan", tag: "NO BOUNDARY", excerpt: "Product-engineering sync attendance has fallen for three weeks.", note: "Missing identifiable decision boundary tied to current action." },
+                { source: "EPIS-004", time: "Current scan", tag: "STALE", excerpt: "Vendor onboarding status is 11 days stale; launch exposure remains unconfirmed.", note: "Missing active evidence signals." }
             ]
         },
         {
