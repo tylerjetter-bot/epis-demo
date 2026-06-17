@@ -911,6 +911,20 @@
             line-height: 1.5;
         }
 
+        .email-template-container .draft-text {
+            font-family: var(--font-sans);
+            font-size: 12.5px;
+            line-height: 1.55;
+        }
+
+        .availability-matrix-container .draft-text {
+            line-height: 1.75;
+        }
+
+        .brief-metadata-container .draft-text {
+            line-height: 1.55;
+        }
+
         .drawer-footer {
             padding: 20px;
             border-top: 1px solid var(--border);
@@ -1099,7 +1113,7 @@
             </div>
 
             <div class="action-box">
-                <div class="action-title">Human-Approved Action</div>
+                <div class="action-title">Dispatch Options</div>
                 <div class="radio-group" id="action-options"></div>
                 <button class="action-btn" onclick="openDrawer()">Prepare for review</button>
             </div>
@@ -1118,13 +1132,17 @@
                 <div class="review-label">Routing Target</div>
                 <div id="drawer-target" style="font-family:var(--font-mono);font-size:12.5px;"></div>
             </div>
-            <div class="review-block">
-                <div class="review-label">Prepared Brief</div>
-                <div class="draft-text" id="drawer-draft"></div>
+            <div class="review-block email-template-container">
+                <div class="review-label">[ Prepared Alignment Session Email ]</div>
+                <div class="draft-text" id="drawer-email"></div>
             </div>
-            <div class="review-block">
-                <div class="review-label">Attached Selection Evidence</div>
-                <div class="draft-text" id="drawer-evidence"></div>
+            <div class="review-block availability-matrix-container">
+                <div class="review-label">[ Shared Availability ]</div>
+                <div class="draft-text" id="drawer-availability"></div>
+            </div>
+            <div class="review-block brief-metadata-container">
+                <div class="review-label">[ Prepared Alignment Brief ]</div>
+                <div class="draft-text" id="drawer-brief"></div>
             </div>
         </div>
         <div class="drawer-footer">
@@ -1258,15 +1276,10 @@ const ITEMS = {
         ],
         actions: [
             {
-                value: "owner_request",
-                label: "Prepare owner decision request",
-                desc: "Package the selection rationale and evidence for VP Support and Director Risk Management.",
-                checked: true
-            },
-            {
                 value: "alignment",
                 label: "Prepare alignment session brief",
-                desc: "Compile the same evidence for a short owner-alignment meeting."
+                desc: "Compile the evidence for a short owner-alignment meeting.",
+                checked: true
             },
             {
                 value: "demote",
@@ -1274,7 +1287,42 @@ const ITEMS = {
                 desc: "Override elevation and continue monitoring with a reason."
             }
         ],
-        target: "Chief of Staff -> VP Support + Director Risk Management"
+        target: "Chief of Staff -> VP Support + Director Risk Management",
+        dispatchEmail: `Subject: Action Required: Escalation & Policy Alignment on Frontline Exception Logic
+
+Bob, Dylan,
+
+I am reaching out to get a definitive decision on an ownership boundary issue that is currently causing active friction for our frontline teams. 
+
+The Situation:
+Our operational monitoring has flagged a continuous breakdown where frontline teams are facing conflicting guidance between Support protocols and Risk Management policy compliance. Because there is currently no unified approval path, agents are actively improvising around these conflicting guidelines to handle live exception disputes.
+
+The Operational Risk:
+• Immediate Friction: Customer-resolution times are stalling because the routing tickets are sitting unresolved without a clear owner.
+• Downstream Impact: If we leave this policy ambiguity unchecked, it is going to normalize inconsistent exception handling and drive up escalation volumes across both your teams.
+
+Next Steps / Required Action:
+We have compiled the raw source data below and staged a decision package so we can lock in a standardized path forward. 
+
+Bob, Dylan—can we connect for 10 minutes? I've listed shared availability below where our calendars currently align. Let me know if one of these blocks works for you.
+
+Best,
+[User]`,
+        sharedAvailability: `[v] Thursday, Jun 18 at 2:00 PM – 2:10 PM EDT
+[ ] Friday, Jun 19 at 10:30 AM – 10:40 AM EDT
+[ ] Monday, Jun 22 at 4:15 PM – 4:25 PM EDT`,
+        preparedBrief: `[EPIS Attention Selection - EPIS-001]
+
+Frontline teams face conflicting guidelines; awaiting owner decision.
+
+Selection judgment:
+PRESENT - Identifiable decision boundary: Active routing deadlock on Jira Ticket #SUP-8921 between Support and Risk.
+PRESENT - Active evidence signals: Ticket has spent 72 hours looping unassigned between queues.
+PRESENT - Near-term operational bottleneck: Zendesk exception processing is stalled, leaving 14 dependent client tickets blocked.
+
+Resolution milestone:
+TARGET CLOSURE - 24-Hour SLA Window: Requires formal queue assignment by Thursday, Jun 18 at 5:00 PM EDT to prevent a hard breach on the 14 blocked client accounts.
+OPERATIONAL IMPACT - Weekly Queue Lock: If unresolved by the deadline, these exceptions will automatically escalate to the executive product-risk backlog for manual reconciliation.`
     },
     "bg-001": {
         id: "EPIS-002",
@@ -1654,26 +1702,18 @@ function toggleEvidence(id) {
 
 function openDrawer() {
     const item = currentMode === "empty" ? EMPTY_STATE : ITEMS[currentId];
-    const selected = document.querySelector('input[name="action"]:checked');
-    const selectedLabel = selected ? selected.parentElement.querySelector("span").textContent : item.actions[0].label;
-
     document.getElementById("drawer-target").textContent = item.target;
-    document.getElementById("drawer-draft").textContent = `[EPIS Attention Selection - ${item.id}]
+    document.getElementById("drawer-email").textContent = item.dispatchEmail || `No email dispatch prepared for ${item.id}.`;
+    document.getElementById("drawer-availability").textContent = item.sharedAvailability || "No shared availability staged.";
+    document.getElementById("drawer-brief").textContent = item.preparedBrief || `[EPIS Attention Selection - ${item.id}]
 
 ${item.title}
-
-Selected action:
-${selectedLabel}
 
 Selection judgment:
 ${item.tests.map(test => `${test.present ? "PRESENT" : "MISSING"} - ${test.name}: ${test.detail}`).join("\n")}
 
-Consequence of inaction:
-${item.consequence.map(node => `${node.label}: ${node.text}`).join("\n")}`;
-
-    document.getElementById("drawer-evidence").textContent = item.evidenceGroups.map(group => {
-        return `${group.title}\n${group.items.map(ev => `- ${ev.source} / ${ev.time} / ${ev.tag}: ${ev.note}`).join("\n")}`;
-    }).join("\n\n");
+Resolution milestone:
+No dispatch milestone staged.`;
 
     document.getElementById("drawer-overlay").style.display = "flex";
 }
