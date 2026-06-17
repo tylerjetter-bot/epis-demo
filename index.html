@@ -28,6 +28,22 @@
             --font-sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", system-ui, sans-serif;
         }
 
+        body[data-theme="light"] {
+            --bg-main: #dfdace;
+            --bg-sidebar: #e8e3d8;
+            --bg-card: #ece6da;
+            --bg-card-hover: #e1dbcf;
+            --bg-panel: #e5dfd3;
+            --border: #c5bdae;
+            --border-focus: #9d9383;
+            --text-main: #29261f;
+            --text-secondary: #5a5348;
+            --text-muted: #7a7163;
+            --accent-attention-bg: rgba(173,115,60,0.12);
+            --accent-attention-border: rgba(173,115,60,0.30);
+            --accent-evidence-bg: rgba(76,112,150,0.10);
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
@@ -79,6 +95,45 @@
             font-family: var(--font-mono);
             font-size: 10px;
             letter-spacing: 0.04em;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .theme-label {
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            font-size: 9.5px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .theme-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            border: 1px solid var(--border-focus);
+            background: transparent;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .theme-dot:hover {
+            border-color: var(--text-secondary);
+        }
+
+        .theme-dot.active {
+            background: var(--text-main);
+            border-color: var(--text-main);
         }
 
         .workspace {
@@ -921,6 +976,37 @@
             line-height: 1.75;
         }
 
+        .availability-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .availability-option {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background: var(--bg-main);
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 9px 10px;
+            text-align: left;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            line-height: 1.35;
+        }
+
+        .availability-option:hover {
+            border-color: var(--border-focus);
+            color: var(--text-main);
+        }
+
+        .availability-option.selected {
+            border-color: rgba(122,170,142,0.44);
+            background: rgba(122,170,142,0.08);
+            color: var(--text-main);
+        }
+
         .brief-metadata-container .draft-text {
             line-height: 1.55;
         }
@@ -1003,7 +1089,14 @@
 <body>
 <header>
     <div class="logo">EPIS <span class="version">Executive Priority Intelligence System</span></div>
-    <div class="header-status">SYNTHETIC CORPUS CONCEPT DEMO</div>
+    <div class="header-right">
+        <div class="theme-toggle" aria-label="Theme options">
+            <span class="theme-label">Theme</span>
+            <button class="theme-dot" id="theme-light" onclick="setTheme('light')" title="Light mode" aria-label="Light mode"></button>
+            <button class="theme-dot active" id="theme-dark" onclick="setTheme('dark')" title="Dark mode" aria-label="Dark mode"></button>
+        </div>
+        <div class="header-status">SYNTHETIC CORPUS CONCEPT DEMO</div>
+    </div>
 </header>
 
 <main class="workspace">
@@ -1138,7 +1231,7 @@
             </div>
             <div class="review-block availability-matrix-container">
                 <div class="review-label">[ Shared Availability ]</div>
-                <div class="draft-text" id="drawer-availability"></div>
+                <div class="availability-options" id="drawer-availability"></div>
             </div>
             <div class="review-block brief-metadata-container">
                 <div class="review-label">[ Prepared Alignment Brief ]</div>
@@ -1304,13 +1397,26 @@ The Operational Risk:
 Next Steps / Required Action:
 We have compiled the raw source data below and staged a decision package so we can lock in a standardized path forward. 
 
-Bob, Dylan—can we connect for 10 minutes? I've listed shared availability below where our calendars currently align. Let me know if one of these blocks works for you.
+Bob, Dylan—can we connect for 10 minutes? I've sent a calendar request for {{SCHEDULE_LINE}}. Please let me know if this time doesn't work for you.
 
 Best,
 [User]`,
-        sharedAvailability: `[v] Thursday, Jun 18 at 2:00 PM – 2:10 PM EDT
-[ ] Friday, Jun 19 at 10:30 AM – 10:40 AM EDT
-[ ] Monday, Jun 22 at 4:15 PM – 4:25 PM EDT`,
+        sharedAvailability: [
+            {
+                value: "thursday",
+                label: "Thursday, Jun 18 at 2:00 PM – 2:10 PM EDT",
+                selected: true
+            },
+            {
+                value: "friday",
+                label: "Friday, Jun 19 at 10:30 AM – 10:40 AM EDT"
+            },
+            {
+                value: "request",
+                label: "Request availability before Thursday, Jun 18 at 5:00 PM EDT",
+                emailLine: null
+            }
+        ],
         preparedBrief: `[EPIS Attention Selection - EPIS-001]
 
 Frontline teams face conflicting guidelines; awaiting owner decision.
@@ -1527,6 +1633,7 @@ const EMPTY_STATE = {
 
 let currentId = "ctrl-001";
 let currentMode = "active";
+let selectedAvailabilityValue = null;
 
 function renderQueue() {
     const list = document.getElementById("queue-list");
@@ -1702,9 +1809,10 @@ function toggleEvidence(id) {
 
 function openDrawer() {
     const item = currentMode === "empty" ? EMPTY_STATE : ITEMS[currentId];
+    selectedAvailabilityValue = getSelectedAvailability(item).value;
     document.getElementById("drawer-target").textContent = item.target;
-    document.getElementById("drawer-email").textContent = item.dispatchEmail || `No email dispatch prepared for ${item.id}.`;
-    document.getElementById("drawer-availability").textContent = item.sharedAvailability || "No shared availability staged.";
+    renderDrawerEmail(item);
+    renderAvailabilityOptions(item);
     document.getElementById("drawer-brief").textContent = item.preparedBrief || `[EPIS Attention Selection - ${item.id}]
 
 ${item.title}
@@ -1716,6 +1824,47 @@ Resolution milestone:
 No dispatch milestone staged.`;
 
     document.getElementById("drawer-overlay").style.display = "flex";
+}
+
+function getSelectedAvailability(item) {
+    const options = Array.isArray(item.sharedAvailability) ? item.sharedAvailability : [];
+    return options.find(option => option.value === selectedAvailabilityValue) || options.find(option => option.selected) || options[0] || { value: "none", label: "No shared availability staged." };
+}
+
+function renderDrawerEmail(item) {
+    const selectedAvailability = getSelectedAvailability(item);
+    const baseEmail = item.dispatchEmail || `No email dispatch prepared for ${item.id}.`;
+    const emailText = selectedAvailability.value === "request"
+        ? baseEmail.replace(
+            "I've sent a calendar request for {{SCHEDULE_LINE}}. Please let me know if this time doesn't work for you.",
+            "Can you send a 10-minute window that works for you before Thursday, Jun 18 at 5:00 PM EDT?"
+        )
+        : baseEmail.replace("{{SCHEDULE_LINE}}", selectedAvailability.emailLine || selectedAvailability.label);
+    document.getElementById("drawer-email").textContent = emailText;
+}
+
+function renderAvailabilityOptions(item) {
+    const options = Array.isArray(item.sharedAvailability) ? item.sharedAvailability : [];
+    const selectedAvailability = getSelectedAvailability(item);
+    const container = document.getElementById("drawer-availability");
+    container.innerHTML = options.map(option => `
+        <button class="availability-option ${option.value === selectedAvailability.value ? "selected" : ""}" onclick="selectAvailability('${option.value}')">
+            ${option.value === selectedAvailability.value ? "[v]" : "[ ]"} ${option.label}
+        </button>
+    `).join("");
+}
+
+function selectAvailability(value) {
+    selectedAvailabilityValue = value;
+    const item = currentMode === "empty" ? EMPTY_STATE : ITEMS[currentId];
+    renderDrawerEmail(item);
+    renderAvailabilityOptions(item);
+}
+
+function setTheme(theme) {
+    document.body.dataset.theme = theme;
+    document.querySelectorAll(".theme-dot").forEach(dot => dot.classList.remove("active"));
+    document.getElementById(`theme-${theme}`).classList.add("active");
 }
 
 function closeDrawer() {
